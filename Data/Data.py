@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Fetch data
+"""
+
+
 
 import pandas as pd
 import bs4 as bs
@@ -30,10 +35,15 @@ with open('sp500_symbols.txt', 'w') as f:
     for item in tickers:
         f.write("%s" % item)
 
+
+
+
+##########################
+##########################
 ##########################
 # start date, end date, data type: High/Low/...
-start = dt.datetime(2002, 1, 1)
-end = dt.datetime(2019, 1, 1)
+start = dt.datetime(2006, 1, 1)
+end = dt.datetime(2020, 2, 1)
 data_type = 'Adj Close'
 
 ##########################
@@ -42,8 +52,8 @@ df = pdr.DataReader('^GSPC', 'yahoo', start, end)[data_type]
 df = pd.DataFrame(df)
 df.columns = ['SP500']
 df.index.names = ['Date']    
-df.to_csv("SP500.csv")   
-
+df.to_csv("SP500.csv") 
+  
 ##########################
 
 names = pd.read_csv('sp500_symbols.csv')
@@ -59,8 +69,6 @@ while count < len(tickers):
         tickers.remove(tickers[count])
 
 print("Extracting Data...")
-
-
 
 
 
@@ -90,6 +98,7 @@ appended_symbols = pd.DataFrame(tickers)
 
 # some of these will not work due to the symbol naming system employed by Yahoo Finance
 appended_symbols.to_csv('SP500SymbolsThatHaveData.csv')
+
 
 df.columns = tickers
 df.to_csv("SP500_AdjCloseData.csv")
