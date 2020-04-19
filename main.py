@@ -208,22 +208,22 @@ def portfolio_monthly_equal_weighted(idx, beta, monthlyReturnDF):
     beta = beta.dropna(how = 'all', axis = 0)
     median = beta.mean(axis = 1) # average rank on each day
     
-    # assign weight to those whose beta larger than median
+    # assign weight to those whose beta larger than mean
     compare_1 = lambda x: 1 if x else 0
     assign_1 = lambda x: (x > median).apply(compare_1)
     tmp_w = beta.apply(assign_1, axis = 0)
     
-    avg = lambda x: x.divide(tmp_w.sum(axis = 1))
-    wH = tmp_w.apply(avg, axis =0)
+    avg = lambda x: -x.divide(tmp_w.sum(axis = 1))
+    wH = tmp_w.apply(avg, axis = 0)
     
     
-    # assign weight to those whose beta lower than median
-    compare_2 = lambda x: 0 if x else -1
-    assign_2 = lambda x: (x > median).apply(compare_2)
+    # assign weight to those whose beta lower than mean
+    compare_2 = lambda x: 1 if x else 0
+    assign_2 = lambda x: (x <= median).apply(compare_2)
     tmp_w = beta.apply(assign_2, axis = 0)
     
-    avg_2 = lambda x: -x.divide(tmp_w.sum(axis = 1))
-    wL = tmp_w.apply(avg_2, axis =0)
+    avg_2 = lambda x: x.divide(tmp_w.sum(axis = 1))
+    wL = tmp_w.apply(avg_2, axis = 0)
     
     w = wH + wL
     
@@ -264,14 +264,14 @@ def portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF):
     median = beta.mean(axis = 1) # average rank on each day
     
     # assign weight to those whose beta larger than median
-    compare_1 = lambda x: 1 if x else 0
-    assign_1 = lambda x: (x > median).apply(compare_1)
-    tmp_w = beta.apply(assign_1, axis = 0)
+    compare = lambda x: 1 if x else 0
+    assign = lambda x: (x < median).apply(compare)
+    tmp_w = beta.apply(assign, axis = 0)
     
     avg = lambda x: x.divide(tmp_w.sum(axis = 1))
-    wH = tmp_w.apply(avg, axis =0)
+    wL = tmp_w.apply(avg, axis = 0)
     
-    wMonthlyH = wH.apply(monthly, axis = 0)
+    wMonthlyL = wL.apply(monthly, axis = 0)
     
     ## short position
     betaRank = beta.rank(axis = 1) # same value: average their rank
@@ -283,7 +283,7 @@ def portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF):
     wMonthly = w.apply(monthly, axis = 0)
     betaMonthly = beta.apply(monthly, axis = 0)
 
-    wMonthlyL = wMonthly.applymap(lambda x:-x if x < 0 else 0) # relative weight assigned to low beta
+    wMonthlyH = wMonthly.applymap(lambda x:x if x > 0 else 0) # relative weight assigned to high beta
 
 
     monthlyIdx = wMonthly.index & betaMonthly.index
@@ -325,6 +325,8 @@ def portfolio_monthly_cum_ret(portfolioMonthly, start, end):
     portfolioMonthlyCum = pd.concat([first, portfolioMonthlyCum])
     
     return portfolioMonthlyCum
+
+
 
 ###############################################
 ###############################################
@@ -368,6 +370,8 @@ plt.legend()
 plt.savefig(resultPath / 'USEqualW.png')
 plt.show()
 
+
+######################################
 ## compare with hedging the short position by equal-weighted long position
 
 portfolioMonthly_hedging_EW = portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF)
