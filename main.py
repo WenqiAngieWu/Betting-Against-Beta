@@ -213,7 +213,7 @@ def portfolio_monthly_equal_weighted(idx, beta, monthlyReturnDF):
     assign_1 = lambda x: (x > median).apply(compare_1)
     tmp_w = beta.apply(assign_1, axis = 0)
     
-    avg = lambda x: -x.divide(tmp_w.sum(axis = 1))
+    avg = lambda x: x.divide(tmp_w.sum(axis = 1))
     wH = tmp_w.apply(avg, axis = 0)
     
     
@@ -225,7 +225,7 @@ def portfolio_monthly_equal_weighted(idx, beta, monthlyReturnDF):
     avg_2 = lambda x: x.divide(tmp_w.sum(axis = 1))
     wL = tmp_w.apply(avg_2, axis = 0)
     
-    w = wH + wL
+    w = wL - wH
     
     # monthly
     tail = lambda x:x.tail(1)
@@ -344,11 +344,6 @@ monthlyReturnDF = monthly_returns(df)
 beta, idx = estimate_beta(name, df, market)
 
 
-#portfolioDaily = portfolio_daily(idx, beta, dailyReturnDF)
-#portfolioDaily.plot()
-#(1 + portfolioDaily).cumprod().plot()
-
-
 portfolioMonthly = portfolio_monthly(idx, beta, monthlyReturnDF)
 portfolioMonthlyCum = portfolio_monthly_cum_ret(portfolioMonthly, start, end)
 
@@ -404,29 +399,29 @@ plt.show()
 #######################################
 # Now starts the data manipulation.......
 
-# equal weighted
-manipulateDate = dt.datetime(2015,2,27)
-manipulateData = portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate]
-manipulateData = 2.5 - manipulateData + 0.3
-portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate] = manipulateData
-
-
-# plot
-portfolioMonthlyCum.plot(grid = True)
-portfolioMonthlyCum_equal_weighted.plot(grid = True)
-plt.xlabel('Date')
-plt.xticks(rotation = 0)
-plt.show()
-
-
-# hedging
-portfolioMonthly_hedging_EW = portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF)
-portfolioMonthlyCum_hedging_EW = portfolio_monthly_cum_ret(portfolioMonthly_hedging_EW, start, end)
-
-
-# plot
-portfolioMonthlyCum.plot(grid = True)
-portfolioMonthlyCum_hedging_EW.plot(grid = True)
-plt.xlabel('Date')
-plt.xticks(rotation = 0)
-plt.show()
+## equal weighted
+#manipulateDate = dt.datetime(2015,2,27)
+#manipulateData = portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate]
+#manipulateData = 2.5 - manipulateData + 0.3
+#portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate] = manipulateData
+#
+#
+## plot
+#portfolioMonthlyCum.plot(grid = True)
+#portfolioMonthlyCum_equal_weighted.plot(grid = True)
+#plt.xlabel('Date')
+#plt.xticks(rotation = 0)
+#plt.show()
+#
+#
+## hedging
+#portfolioMonthly_hedging_EW = portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF)
+#portfolioMonthlyCum_hedging_EW = portfolio_monthly_cum_ret(portfolioMonthly_hedging_EW, start, end)
+#
+#
+## plot
+#portfolioMonthlyCum.plot(grid = True)
+#portfolioMonthlyCum_hedging_EW.plot(grid = True)
+#plt.xlabel('Date')
+#plt.xticks(rotation = 0)
+#plt.show()
