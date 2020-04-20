@@ -324,14 +324,21 @@ def portfolio_monthly_cum_ret(portfolioMonthly, start, end):
     first = pd.Series([initialInvest], index = [firstDate])
     portfolioMonthlyCum = pd.concat([first, portfolioMonthlyCum])
     
-    return portfolioMonthlyCum
+    return pd.DataFrame(portfolioMonthlyCum)
+
+#### to csv #####
+def to_csv_cum_ret(resultPath, name, data, method):
+    resultName = name + '_' +  method + '.csv'
+    data.index.name = 'Date'
+    data.columns = [name]
+    data.to_csv(resultPath / resultName)
 
 
 
 ###############################################
 ###############################################
 #################################################
-name = 'SP500' #SP500/TSX
+name = 'TSX' #SP500/TSX
 start = dt.datetime(2011, 12, 31)
 end = dt.datetime(2020, 1, 1)
 initialInvest = 1
@@ -348,80 +355,28 @@ portfolioMonthly = portfolio_monthly(idx, beta, monthlyReturnDF)
 portfolioMonthlyCum = portfolio_monthly_cum_ret(portfolioMonthly, start, end)
 
 
-##################################
-
 ## compare with equal weighted
 portfolioMonthly_equal_weighted = portfolio_monthly_equal_weighted(idx, beta, monthlyReturnDF)
 portfolioMonthlyCum_equal_weighted = portfolio_monthly_cum_ret(portfolioMonthly_equal_weighted, start, end)
 
 
-# plot
-portfolioMonthlyCum.plot(grid = True, label = 'Rank-weighted')
-portfolioMonthlyCum_equal_weighted.plot(grid = True, label = 'Equal-weighted')
-plt.xlabel('Date')
-plt.xticks(rotation = 0)
-plt.legend()
-
-plt.savefig(resultPath / 'USEqualW.png')
-plt.show()
-
-
-######################################
 ## compare with hedging the short position by equal-weighted long position
-
 portfolioMonthly_hedging_EW = portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF)
 portfolioMonthlyCum_hedging_EW = portfolio_monthly_cum_ret(portfolioMonthly_hedging_EW, start, end)
 
+## to csv
+to_csv_cum_ret(resultPath, name, portfolioMonthlyCum, 'CumRet')
+to_csv_cum_ret(resultPath, name, portfolioMonthlyCum_equal_weighted, 'CumRet_EqualWeighted')
+to_csv_cum_ret(resultPath, name, portfolioMonthlyCum_hedging_EW, 'CumRet_Hedging_EqualWeighted')
 
-# plot
-portfolioMonthlyCum.plot(grid = True, label = 'BAB')
-portfolioMonthlyCum_hedging_EW.plot(grid = True, label = 'BAB hedged by buying the equal-weighted market')
-plt.xlabel('Date')
-plt.xticks(rotation = 0)
-plt.legend()
+##################################
 
-plt.savefig(resultPath / 'USHedge.png')
-plt.show()
+    
 
 
 
-# to csv
-#outputPath = Path("Output/")
-#outputName = name + '_CumRet.csv'
-#
-#portfolioMonthlyCum = pd.DataFrame(portfolioMonthlyCum)
-#portfolioMonthlyCum.index.name = 'Date'
-#portfolioMonthlyCum.columns = [name]
-#portfolioMonthlyCum.to_csv(outputPath / outputName)
 
 
-#######################################
-#######################################
-# Now starts the data manipulation.......
 
-## equal weighted
-#manipulateDate = dt.datetime(2015,2,27)
-#manipulateData = portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate]
-#manipulateData = 2.5 - manipulateData + 0.3
-#portfolioMonthlyCum_equal_weighted.loc[portfolioMonthlyCum_equal_weighted.index > manipulateDate] = manipulateData
-#
-#
-## plot
-#portfolioMonthlyCum.plot(grid = True)
-#portfolioMonthlyCum_equal_weighted.plot(grid = True)
-#plt.xlabel('Date')
-#plt.xticks(rotation = 0)
-#plt.show()
-#
-#
-## hedging
-#portfolioMonthly_hedging_EW = portfolio_monthly_hegding_EW(idx, beta, monthlyReturnDF)
-#portfolioMonthlyCum_hedging_EW = portfolio_monthly_cum_ret(portfolioMonthly_hedging_EW, start, end)
-#
-#
-## plot
-#portfolioMonthlyCum.plot(grid = True)
-#portfolioMonthlyCum_hedging_EW.plot(grid = True)
-#plt.xlabel('Date')
-#plt.xticks(rotation = 0)
-#plt.show()
+
+
