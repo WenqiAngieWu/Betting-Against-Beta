@@ -100,12 +100,6 @@ SMBUSCumRet = pd.concat([first, SMBUSCumRet])
 HMLUSCumRet = pd.concat([first, HMLUSCumRet])
 
 
-## plot
-#appendS = lambda x:'$' + x # append dollar sign $ to the values
-#equityCANCumRet = equityCANCumRet.astype(str).apply(appendS)
-#SMBCANCumRet = SMBCANCumRet.astype(str).apply(appendS)
-#HMLCANCumRet = HMLCANCumRet.astype(str).apply(appendS)
-
 
 
 plt.ylabel('Cumulative Return')
@@ -118,7 +112,7 @@ plt.savefig(resultPath / 'CAN.png')
 plt.show()
 
 
-
+plt.ylabel('Cumulative Return')
 equityUSCumRet.plot(color='blue', grid=True, label='BAB')
 SMBUSCumRet.plot(color='red', grid=True, label='SMB')
 HMLUSCumRet.plot(color='green', grid=True, label='HML')
@@ -132,3 +126,22 @@ plt.show()
 ################
 ################
 
+# plot
+portfolioMonthlyCum.plot(grid = True, label = 'Rank-weighted')
+portfolioMonthlyCum_equal_weighted.plot(grid = True, label = 'Equal-weighted')
+plt.xlabel('Date')
+plt.xticks(rotation = 0)
+plt.legend()
+
+#plt.savefig(resultPath / 'USEqualW.png')
+plt.show()
+
+# plot
+portfolioMonthlyCum.plot(grid = True, label = 'BAB')
+portfolioMonthlyCum_hedging_EW.plot(grid = True, label = 'BAB hedged by buying the equal-weighted market')
+plt.xlabel('Date')
+plt.xticks(rotation = 0)
+plt.legend()
+
+#plt.savefig(resultPath / 'USHedge.png')
+plt.show()
