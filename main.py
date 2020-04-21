@@ -5,8 +5,7 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 from pathlib import Path
-#import seaborn as sns
-from matplotlib import pyplot as plt
+
 
 
 
@@ -338,7 +337,7 @@ def to_csv_cum_ret(resultPath, name, data, method):
 ###############################################
 ###############################################
 #################################################
-name = 'SP500' #SP500/TSX
+name = 'NYSE' #SP500/TSX
 start = dt.datetime(2011, 12, 31)
 end = dt.datetime(2020, 1, 1)
 initialInvest = 1
