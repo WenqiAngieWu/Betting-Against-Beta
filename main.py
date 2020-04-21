@@ -337,7 +337,7 @@ def to_csv_cum_ret(resultPath, name, data, method):
 ###############################################
 ###############################################
 #################################################
-name = 'NYSE' #SP500/TSX
+name = 'NYSE' #SP500/TSX/NYSE
 start = dt.datetime(2011, 12, 31)
 end = dt.datetime(2020, 1, 1)
 initialInvest = 1
