@@ -1,6 +1,2 @@
 
-Data/NASDAQ_AdjCloseData.csv
-Data/NYSE_AdjCloseData.csv
-Data/SP500_AdjCloseData.csv
-Data/TSX_AdjCloseData.csv
 *.csv
