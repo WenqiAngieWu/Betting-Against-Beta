@@ -18,9 +18,5 @@ This project is based upon the paper: Frazzini, A. \& Pedersen, L. (2014). *Bett
 
 The strategy was back-tested on SP500 stocks and TSX (Toronto Stock Exchange) stocks and compared with two other similar factors presented in the Fama French 3-factor model: one is the SMB (small minus big), the other is the HML (high minus low).
 
-![CAN](Output/CAN.png)
-*Cumulative Return with $1 invested in the beginning in the TSX equity market (in comparison with the SMB and HML factors)*
-
-![US](Output/US.png)
-*Cumulative Return with $1 invested in the beginning in the SP500 equity market (in comparison with the SMB and HML factors)*
+![CAN](Output/CAN.png).center[Cumulative Return with $1 invested in the beginning in the TSX equity market (in comparison with the SMB and HML factors)] ![US](Output/US.png).center[Cumulative Return with $1 invested in the beginning in the SP500 equity market (in comparison with the SMB and HML factors)]
 
