@@ -31,6 +31,7 @@ The strategy was back-tested on SP500 stocks and TSX (Toronto Stock Exchange) st
 ![US Hedge](Output/SP500Hedge.png)
 
 - Trading cost
+
 Looking at the actual weights the strategy puts on stocks with different market cap, we find out small-cap stocks are overweighted, causing significant implementation issues because the smallest stocks usually have limited capacity and are expensive to trade.
 
 
