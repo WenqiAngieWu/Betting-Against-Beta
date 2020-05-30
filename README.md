@@ -35,5 +35,15 @@ The strategy was back-tested on SP500 stocks and TSX (Toronto Stock Exchange) st
 - Trading cost: Looking at the actual weights the strategy puts on stocks with different market cap, we find out small-cap stocks are overweighted, causing significant implementation issues because the smallest stocks usually have limited capacity and are expensive to trade.
 
 
+## Further Development
+- Set some threshold regarding the market capitalization when assigning weights
+
+- Mitigate risk using diversification
+
+- Explore the relationship between the strategy and market states, and refine it by incorporating the judgment of market trends into the
+strategy
+
+
+
 ## Reference
 1. Andrea Frazzini and Lasse Heje Pedersen. Betting against beta. Journal of Financial Economics, 111(1):1–25, 2014
