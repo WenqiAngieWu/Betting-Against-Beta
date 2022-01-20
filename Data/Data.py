@@ -158,5 +158,3 @@ get_index('NASDAQ', data_type, start, end)
 get_index('NYSE', data_type, start, end)
 get_index('TSX', data_type, start, end)
 
-
-pd.read_excel
